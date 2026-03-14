@@ -1,0 +1,28 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+// @@map("todos") named the table name as todos because table/model is not capital anytime, so it just change the name.
+// it can do it by it self but we can force the name by map.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Todo {
+  id        String   @id @default(uuid())
+  title     String
+  note      String?
+  completed Boolean  @default(false)
+  important Boolean  @default(false)
+  userId    String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("todos")
+}
