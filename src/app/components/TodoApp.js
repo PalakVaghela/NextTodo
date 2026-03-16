@@ -10,14 +10,14 @@ import {
   togglecompletedTodo
 } from '../actions/todo'
 
-export default function TodoApp ({ initialTodos }) {
-  // const [todo, setTodo] = useState("");
+export default function TodoApp ({ initialTodos, filterType }) {
   const [title, setTitle] = useState('')
   const [note, setNote] = useState('')
   const [todos, setTodos] = useState(initialTodos || [])
   const [editingId, setEditId] = useState(null)
   const [editTitle, setEditTitle] = useState('')
   const [editNote, setEditNote] = useState('')
+  const [showForm, setShowForm] = useState(false)
 
   async function addTodo () {
     if (title.trim() === '') return
@@ -89,43 +89,68 @@ export default function TodoApp ({ initialTodos }) {
     }
   }
 
+  const filteredtodos = todos.filter(todo => {
+    console.log(filterType, "##############111########")
+      if(filterType == "important") return todo.important
+      if(filterType == "completed") return todo.completed
+      return true
+  })
+
   return (
-    <div className='flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black'>
-      <div className='items-center justify-center dark:bg-black p-6 rounded-lg shadow-md w-96'>
+    <div className='flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-zinc-950'>
+      <div className='items-center justify-center dark:bg-zinc-950 p-6 rounded-lg shadow-md w-96'>
         <h1 className='max-w-xs text-center text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50'>
           MY TODO
         </h1>
 
-        <form onSubmit={e =>{
-          e.preventDefault()
-          addTodo()
+        {
+          !showForm && filterType !== "important" && filterType !== "completed" && (
+          <button className="flex items-center gap-2 bg-blue-500 hover:bg-blue-600 text-white rounded-full py-3 px-4 shadow-lg margine mb-8 mt-8 ml-15"
+            onClick={() => {setShowForm(true)}}
+          >
+            ADD NEW
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-10">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+            </svg>
+          </button>
+        )}
+        <h4>Total todos :{todos.length}</h4>
+        {
+          showForm && (
+          <form onSubmit={e =>{
+            e.preventDefault()
+            addTodo()
           }}>
 
-          <div className='max-w-sm p-6 bg-black border border-gray-500 my-2'>
-            <input type='text' value={title} onChange={e => setTitle(e.target.value)} placeholder='Add a new title...' autoFocus
-              className='w-full border p-2 rounded mb-4  dark:bg-zinc-700  focus:outline-none dark:text-white  focus:ring-blue-500'/>
-            <textarea value={note} onChange={e => setNote(e.target.value)} placeholder='Add details or notes here... (optional)' rows={2}
-              className='w-full p-3 text-base border border-zinc-300 dark:border-zinc-600 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 resize-y min-h-15 dark:bg-zinc-700 dark:text-white'
-              onKeyDown={e => {
-                if (e.key === 'Enter' && !e.shiftKey) {
-                  e.preventDefault()
-                  addTodo()
-                }
-              }}/>
-          </div>
+            <div className='max-w-sm p-6 bg-zinc-950 border border-gray-500 my-2'>
+              <input type='text' value={title} onChange={e => setTitle(e.target.value)} placeholder='Add a new title...' autoFocus
+                className='w-full border p-2 rounded mb-4  dark:bg-zinc-700  focus:outline-none dark:text-white  focus:ring-blue-500'/>
+              <textarea value={note} onChange={e => setNote(e.target.value)} placeholder='Add details or notes here... (optional)' rows={2}
+                className='w-full p-3 text-base border border-zinc-300 dark:border-zinc-600 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 resize-y min-h-15 dark:bg-zinc-700 dark:text-white'
+                onKeyDown={e => {
+                  if (e.key === 'Enter' && !e.shiftKey) {
+                    e.preventDefault()
+                    addTodo()
+                  }
+                }}/>
+            </div>
 
-          <button className='w-full bg-blue-500 text-white py-2 rounded' type='submit'>
-            Add Todo
-          </button>
-        </form>
+            <button className='w-full bg-blue-500 text-white py-2 rounded mb-3' type='submit'>
+              Add Todo
+            </button>
+            <button className='w-full bg-red-500 text-white py-2 rounded' onClick={() => {setShowForm(false) }}>
+              Cancel
+            </button>
+          </form>
+        )}
 
         <ul className='mt-4'>
-          {todos.length === 0 ? (
+          {filteredtodos.length === 0 ? (
             <p className='text-center text-gray-500 dark:text-gray-400 py-10'>
               No todos yet — add one above!
             </p>
           ) : (
-            todos.map(todo => (
+            filteredtodos.map(todo => (
               <li key={todo.id} className='flex items-center justify-between border-b py-2'>
                 <div className='flex items-start justify-between gap-3'>
                   <div className='flex-1'>
@@ -196,3 +221,8 @@ export default function TodoApp ({ initialTodos }) {
 // in todo input list ot will show what is inside todo which is B. when user adds u it will again renders setTodod and we have not done setTodod("") so it will show Bu -> will save in {todo} variable and visible in input.
 // now like that when user press enter we will save {todo} in taxt and then then add that in todolist then set setTodod("") so inpit will again set as blank.
 // So like that we can control input component by react state.
+// in onClick we cannot pass direct function like onClick={setForm()} because onclick ecpect function. this will give function so during rendering in onClick var. it will call the function so function will ececute before clicking...
+//  Thats why by passing it in aero function. so during rendering it just define the aero function and onClick the function will called.
+// functionName()  → run now
+// functionName    → run later
+// () => functionName() → run later when event happens

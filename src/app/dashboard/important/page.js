@@ -1,9 +1,11 @@
-import React from 'react'
+import TodoApp from "@/app/components/TodoApp";
+import prisma from "@/lib/prisma";
 
-const Important = () => {
-  return (
-    <div> This is Important page</div>
-  )
+export default async function ImpTodos() {
+
+  const imptodos = await prisma.todo.findMany({
+    where: { important: true}
+  })
+
+  return <TodoApp initialTodos={ imptodos } filterType="important"/>
 }
-
-export default Important

@@ -1,9 +1,11 @@
-import React from 'react'
+import prisma from "@/lib/prisma";
+import TodoApp from "@/app/components/TodoApp";
 
-const Completed = () => {
-  return (
-    <div> This is Completed page</div>
-  )
+
+export default async function complatedTodos() {
+  const completed = await prisma.todo.findMany({
+    where: { completed: true },
+  });
+
+  return <TodoApp initialTodos={ completed } filterType="completed"/>
 }
-
-export default Completed

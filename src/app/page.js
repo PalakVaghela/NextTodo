@@ -6,7 +6,7 @@ export default function Home() {
     <div className="relative min-h-screen w-full">
       <Image src="/homepage.png" alt="Todo App" className="object-fill" fill/>
       <h1 className="text-3xl font-bold">Welcome to Todo App</h1>
-           <div className="absolute inset-0 bg-black/40"></div>
+           <div className="absolute inset-0 bg-zinc-950"></div>
 
       {/* Content */}
         <div className="relative z-10 flex min-h-screen flex-col items-center justify-center text-white text-center gap-4">

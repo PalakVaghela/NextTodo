@@ -85,3 +85,5 @@ export async function toggleImpTodo (id) {
   })
   revalidatePath('/todo')
 }
+
+// in our prisma we have named our table Todo so, prima will convert this table name into lower case internaly, so in prima table name will be todo. so to access the todo we have to write in lower case prisma.todo. like that.
