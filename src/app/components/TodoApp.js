@@ -29,6 +29,7 @@ export default function TodoApp({ initialTodos, filterType }) {
     formData.append("title", title);
     formData.append("note", note);
     await addTodoAction(formData);
+    setShowForm(false)
   }
 
   async function deleteTodo(id) {
@@ -222,7 +223,7 @@ export default function TodoApp({ initialTodos, filterType }) {
 
                 {/* This div starts at opacity-0 and slides up slightly on group-hover */}
                 {/* <div className="flex gap-2 overflow-hidden max-h-0 opacity-0 transition-all duration-500 ease-in-out group-hover:max-h-20 group-hover:opacity-100 group-hover:mt-4"> */}
-                <div className="ml-9 overflow-hidden max-h-0 border-t border-white/5 flex items-center gap-4 opacity-0 transition-all duration-500 ease-in-out group-hover:max-h-20 group-hover:opacity-100 group-hover:translate-y-0 group-hover:mt-4">
+                <div className="ml-9 overflow-hidden max-h-0 pt-2 border-t border-white/5 flex items-center gap-4 opacity-0 transition-all duration-500 ease-in-out group-hover:max-h-20 group-hover:opacity-100 group-hover:translate-y-0 group-hover:mt-2">
                   {editingId === todo.id ? (
                     <>
                       <button

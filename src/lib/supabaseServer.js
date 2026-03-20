@@ -5,14 +5,12 @@ import { cookies } from "next/headers";
 export async function createSupabaseServer() {
   const cookieStore = await cookies();  // This is async in Next 15+
 
-  console.log("Creating server client - cookies available:", cookieStore.getAll().map(c => c.name));
-
   return createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL,
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
     {
       cookies: {
-        getAll() {  // ← No 'name' param here!
+        getAll() {
           return cookieStore.getAll();
         },
         setAll(cookiesToSet) {

@@ -1,4 +1,3 @@
-// lib/prisma.js
 import { PrismaClient } from '@prisma/client';
 import { PrismaPg } from '@prisma/adapter-pg';
 import { Pool } from 'pg';
@@ -10,7 +9,6 @@ if (!process.env.DATABASE_URL) {
 // Create a connection pool (recommended for Next.js)
 const connectionString = process.env.DATABASE_URL;
 const pool = new Pool({ connectionString });
-
 const adapter = new PrismaPg(pool);
 
 const prismaClientSingleton = () => {
@@ -20,7 +18,6 @@ const prismaClientSingleton = () => {
 };
 
 const globalForPrisma = globalThis;
-
 const prisma = globalForPrisma.prisma || prismaClientSingleton();
 
 if (process.env.NODE_ENV !== 'production') {

@@ -3,11 +3,9 @@
 import prisma from '@/lib/prisma'
 import { getCurrentUser } from '@/lib/auth'
 import { revalidatePath } from 'next/cache'
-import Completed from '../dashboard/completed/page'
 
 export async function getTodos () {
   const user = await getCurrentUser()
-
   const todos = await prisma.todo.findMany({
     where: { userId: user.id },
     orderBy: { createdAt: 'desc' }
@@ -18,7 +16,6 @@ export async function getTodos () {
 
 export async function addTodo (formData) {
   const user = await getCurrentUser()
-
   const title = formData.get('title')
   const note = formData.get('note')
 
@@ -76,7 +73,6 @@ export async function toggleImpTodo (id) {
   const todo = await prisma.todo.findUnique({
     where: { id }
   })
-  console.log(todo, 'todo......')
   await prisma.todo.update({
     where: { id },
     data: {
@@ -85,5 +81,4 @@ export async function toggleImpTodo (id) {
   })
   revalidatePath('/todo')
 }
-
 // in our prisma we have named our table Todo so, prima will convert this table name into lower case internaly, so in prima table name will be todo. so to access the todo we have to write in lower case prisma.todo. like that.

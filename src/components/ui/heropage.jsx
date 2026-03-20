@@ -4,7 +4,6 @@ import React, { useEffect } from 'react';
 
 const HeroSection = () => {
   useEffect(() => {
-    // Calculate path lengths for accurate animations
     document.querySelectorAll('.animation-line').forEach(path => {
       const len = path.getTotalLength();
       path.style.strokeDasharray = `${len}px`;

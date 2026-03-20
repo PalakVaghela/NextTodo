@@ -8,16 +8,12 @@ import { getTodos } from "../../actions/todo";
 
 export default async function Todo() {
   const supabase = await createSupabaseServer();
-  // debugger
   const { data: { user } } = await supabase.auth.getUser();
-    console.log(user, "gocha user.....................")
     if (!user){
-      console.log("Damn where is user...........")
       redirect('/login');
     }
 
   // Optional: log for debug (remove later)
-  console.log("Todo page user:", user);
   const todos = await getTodos();
 
   // No need for if (!user) redirect — middleware already handled it!

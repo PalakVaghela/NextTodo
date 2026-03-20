@@ -20,14 +20,12 @@ export default function Login() {
       email,
       password,
     });
-    console.log("USER ERROR:", error);
 
     if (error) {
       setError(error.message);
       console.log("");
       return;
     }
-    console.log("everythinf is okay");
     router.refresh();
     router.push("/dashboard/todo");
   }

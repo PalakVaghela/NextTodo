@@ -54,8 +54,7 @@ export default function Signup() {
 
           <form
             onSubmit={handleSignup}
-            className="flex flex-col items-center gap-5"
-          >
+            className="flex flex-col items-center gap-5">
             {/* Neumorphic Input Style */}
             <input
               type="text"
