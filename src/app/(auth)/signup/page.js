@@ -12,6 +12,7 @@ export default function Signup() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
 
+  // the signup page
   async function handleSignup(e) {
     e.preventDefault();
     setError("");
